@@ -13,3 +13,10 @@ Signals: Signals are Infra/app/OS outputs that describe the underlying activity,
 Trace: The path of a request through your application. Traces give us the big picture of what happens when a request is made to an application.
 Metric: A metric is a measurement of a service captured at runtime. 
 logs: A log is a timestamped text record, either structured (recommended) or unstructured, with optional metadata. Of all telemetry signals, logs have the biggest legacy.
+
+--
+
+Otel gives us two ways to deploy :
+1. Zero code base : if we can't access the app code or we don't wanna deal with coding, Otel APIs and SDKs and exporters as bundles are applied with a agent-like
+You can configure zero-code instrumentation through environment variables and other language-specific mechanisms, such as system properties or arguments passed to initialization methods.
+2. Code base 
