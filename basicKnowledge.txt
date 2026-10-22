@@ -1,11 +1,15 @@
 OpenTelemetry(OTel) is a vendor-neutral open source Observability framework for instrumenting, generating, collecting, and exporting telemetry data such as traces, metrics, and logs.
 
+How Otel even founded?
+OpenTracing and OpenCensus merged in 2019 to address fragmentation in the observability ecosystem. OpenTracing focused mainly on distributed tracing and provided a vendor-neutral instrumentation API, while OpenCensus offered tracing and metrics with a more implementation-oriented approach. Their overlapping goals but different architectures and lack of mutual compatibility created confusion for developers, duplicated effort, and made standardization difficult. OpenTelemetry unified their strengths into a single, vendor-neutral project, simplifying instrumentation and improving interoperability across observability tools.
+==OpenTracing focused on providing a vendor-neutral API for distributed tracing.
+==OpenCensus supported both tracing and metrics, including telemetry collection and export.
 
 Difference between Observability and Monitoring?
 Observe: 
 - Observability lets you understand a system from the outside by letting you ask questions about that system without knowing its inner workings
 - It also helps you answer the question “Why is this happening?” [*]
--
+- Observability is a fashionable word with some admirably nerdy and academic origins. In control theory, “observability” measures how well we can understand the internals of a given system using only its external outputs. 
 Monitoring:
 -- Monitoring is the process of collecting data and generating reports on different metrics that define system health.
 [*] : To ask questions, application must be properly instrumented. That is, the application code must emit signals such as traces, metrics, and logs.
@@ -19,4 +23,4 @@ logs: A log is a timestamped text record, either structured (recommended) or uns
 Otel gives us two ways to deploy :
 1. Zero code base : if we can't access the app code or we don't wanna deal with coding, Otel APIs and SDKs and exporters as bundles are applied with a agent-like
 You can configure zero-code instrumentation through environment variables and other language-specific mechanisms, such as system properties or arguments passed to initialization methods.
-2. Code base 
+2. Code base : you'll use Otel APIs and SDKs in your code so it can collect signals.
