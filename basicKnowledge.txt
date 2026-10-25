@@ -14,11 +14,13 @@ Monitoring:
 -- Monitoring is the process of collecting data and generating reports on different metrics that define system health.
 [*]: To ask questions, application must be properly instrumented. That is, the application code must emit signals such as traces, metrics, and logs.
 Signals: Signals are Infra/app/OS outputs that describe the underlying activity, logs, metrics, traces, etc. they're all kind of a signal.
-Trace: The path of a request through your application. Traces give us the big picture of what happens when a request is made to an application.
+Trace: The path of a request through your application. Traces give us the big picture of what happens when a request is made to an application. -- [A trace is made of one or more spans. The first span represents the root span. Each root span represents a request from start to finish]
 Metric: A metric is a measurement of a service captured at runtime. 
 logs: A log is a timestamped text record, either structured (recommended) or unstructured, with optional metadata. Of all telemetry signals, logs have the biggest legacy.
-
-
+spans: A span represents a single unit of work or operation. Spans track specific operations that a request makes, painting a picture of what happened during the time in which that operation was executed. 
+ A span contains name, time-related data, structured log messages, and other metadata (that is, Attributes) to provide information about the operation it tracks.
+SLI, or Service Level Indicator, represents a measurement of a service’s behavior. A good SLI measures your service from the perspective of your users. An example SLI can be the speed at which a web page loads.
+SLO, or Service Level Objective, represents the means by which reliability is communicated to an organization/other teams. This is accomplished by attaching one or more SLIs to business value.
 Metrics: 
 [
 A metric is a measurement of a service captured at runtime. The moment of capturing a measurement is known as a metric event.
@@ -52,6 +54,78 @@ The instrument kind is one of the following:
   Asynchronous Gauge: Same as the Gauge, but is collected once for each export. Could be used if you don’t have access to the continuous changes, but only to the aggregated value.
   Histogram: A client-side aggregation of values, such as request latencies. A histogram is a good choice if you are interested in value statistics. For example: How many requests take fewer than 1s?
 ]
+
+MeterExporter 
+[
+Metric Exporters send metric data to a consumer. This consumer can be standard output for debugging during development, the OpenTelemetry Collector, or any open source or vendor backend of your choice.
+]
+
+Aggregation 
+[
+Later. [**]
+]
+
+Logs [
+A log is a timestamped text record, either structured (recommended) or unstructured, with optional metadata. Of all telemetry signals, logs have the biggest legacy
+There are 3 types of logs
+1. Structured Logs:
+ A structured log is a log with a defined, consistent schema or typed fields that downstream systems can reliably parse and interpret
+ The textual encoding can be JSON, protobuf, or another format, but what makes a log structured is the presence of a stable schema (field names, types, and semantics), not merely that it is valid JSON
+ Structured logs are preferred in production because their stable schema makes them straightforward to validate, parse, correlate with traces and metrics, and analyze at scale.
+ Example : 
+{
+  "timestamp": "2024-08-04T12:34:56.789Z",
+  "level": "INFO",
+  "service": "user-authentication",
+  "environment": "production",
+  "message": "User login successful",
+  "context": {
+    "userId": "12345",
+    "username": "johndoe",
+    "ipAddress": "192.168.1.1",
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36"
+  },
+  "transactionId": "abcd-efgh-ijkl-mnop",
+  "duration": 200,
+  "request": {
+    "method": "POST",
+    "url": "/api/v1/login",
+    "headers": {
+      "Content-Type": "application/json",
+      "Accept": "application/json"
+    },
+    "body": {
+      "username": "johndoe",
+      "password": "******"
+    }
+  },
+  "response": {
+    "statusCode": 200,
+    "body": {
+      "success": true,
+      "token": "jwt-token-here"
+    }
+  }
+}
+
+2. Unstructured logs:
+ Unstructured logs are logs that don’t follow a consistent structure.
+ They may be more human-readable, and are often used in development. 
+ it is not preferred to use unstructured logs for production observability purposes, since they are much more difficult to parse and analyze at scale.
+ Example : 
+  [ERROR] 2024-08-04 12:45:23 - Failed to connect to database. Exception: java.sql.SQLException: Timeout expired. Attempted reconnect 3 times. Server: db.example.com, Port: 5432
+  System reboot initiated at 2024-08-04 03:00:00 by user: admin. Reason: Scheduled maintenance. Services stopped: web-server, database, cache. Estimated downtime: 15 minutes.
+  DEBUG - 2024-08-04 09:30:15 - User johndoe performed action: file_upload. Filename: report_Q3_2024.pdf, Size: 2.3 MB, Duration: 5.2 seconds. Result: Success
+
+3.Semi-structured logs:
+ Semistructured logs include machine-readable key/value pairs or delimited fields but do not guarantee a stable schema across emitters.
+ Semistructured logs are often easier to parse than unstructured logs but may still require processing and normalization before analysis.
+Example:
+ 2024-08-04T12:45:23Z level=ERROR service=user-authentication userId=12345 action=login message="Failed login attempt" error="Invalid password" ipAddress=192.168.1.1 userAgent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36"
+
+]
+
+
 
 --
 
