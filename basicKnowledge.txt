@@ -171,3 +171,12 @@ Otel gives us two ways to deploy :
 1. Zero code base : if we can't access the app code or we don't wanna deal with coding, Otel APIs and SDKs and exporters as bundles are applied with a agent-like
 You can configure zero-code instrumentation through environment variables and other language-specific mechanisms, such as system properties or arguments passed to initialization methods.
 2. Code base : you'll use Otel APIs and SDKs in your code so it can collect signals.
+
+
+---
+Deploying Otel: 
+Collector : Otel component that can collect data from the paths we specify for. if deploy with containers, a docker compose file and a config file will be our configuration. In config file we will set receivers, extensions, exporters, and whatever is needed for Otel to do with our data. Collector is the Main component Otel have. then it will creates pipeline with exporters, processors, and receiver.\
+
+Receiver : A receiver is how data gets into the OpenTelemetry Collector. Generally, a receiver accepts data in a specified format, translates it into the internal format and passes it to processors and exporters defined in the applicable pipelines. Receivers collect telemetry from one or more sources. They can be pull or push based, and may support one or more data sources(Logs, metric, traces). also The Collector requires one or more receivers. --> Because collector use them for creating the data parsing pipeline.
+
+Processors: Processors take the data collected by receivers and modify or transform it before sending it to the exporters. Processors are optional.
