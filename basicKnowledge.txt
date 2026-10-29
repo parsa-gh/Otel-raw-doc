@@ -180,3 +180,43 @@ Collector : Otel component that can collect data from the paths we specify for. 
 Receiver : A receiver is how data gets into the OpenTelemetry Collector. Generally, a receiver accepts data in a specified format, translates it into the internal format and passes it to processors and exporters defined in the applicable pipelines. Receivers collect telemetry from one or more sources. They can be pull or push based, and may support one or more data sources(Logs, metric, traces). also The Collector requires one or more receivers. --> Because collector use them for creating the data parsing pipeline.
 
 Processors: Processors take the data collected by receivers and modify or transform it before sending it to the exporters. Processors are optional.
+
+
+---
+
+
+
+
+Sec:
+Best practice for data minimization:
+Only collect data that serves an observability purpose.
+Avoid collecting personal information unless absolutely necessary.
+Consider whether aggregated or anonymized data could serve the same purpose.
+Regularly review collected attributes to ensure they remain necessary.
+
+
+
+----
+
+ChatGPT technical corrections 
+
+1. Collector and its pipelines :
+
+Otel collector is one of the main components of collecting and processing telemetry data. it is an independent running program that is responsible for receiving, processing, and exporting telemetry data. inside that we can define multiple pipelines, each one for a type of signals. It is also possible to have multiple pipelines for a single signal.
+
+Processors are completely optional and are not required to be present in pipelines
+
+in each pipelines we have at least one receiver and one exporter, processors are optional. it is possible to have multiple receivers, exporters, and processors.
+
+All recievers are not dependent to network ports. for example OTLP receiver will listen on some ports to catch data but file log receiver will capture logs on paths we specify for
+
+exporter can send the logs to a service on same server it is running, it can save data as a file. The main responsibility as an exporter, is to extract the data from pipeline and deliver it to the destination. 
+
+Processors can do multiple things based on what we select:
+- Batching : collecting data in categories so they be more efficient.
+- Filtering : removing datas that are irrelevant 
+- Enrichment : adding attribute or more information
+- Transformation : modifying the attributes and change data based on rules.
+- Sampling : selecting some signals to reduce amount of exporting signals.
+
+
