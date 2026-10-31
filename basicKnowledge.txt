@@ -187,14 +187,7 @@ Processors: Processors take the data collected by receivers and modify or transf
 
 
 
-Sec:
-Best practice for data minimization:
-Only collect data that serves an observability purpose.
-Avoid collecting personal information unless absolutely necessary.
-Consider whether aggregated or anonymized data could serve the same purpose.
-Regularly review collected attributes to ensure they remain necessary.
-
-
+Service Pipeline in collector : we put everything (rcv, pre, exp) together with defining service pipeline
 
 ----
 
@@ -203,6 +196,8 @@ ChatGPT technical corrections
 1. Collector and its pipelines :
 
 Otel collector is one of the main components of collecting and processing telemetry data. it is an independent running program that is responsible for receiving, processing, and exporting telemetry data. inside that we can define multiple pipelines, each one for a type of signals. It is also possible to have multiple pipelines for a single signal.
+
+Receivers can collect data with push or pull model.
 
 Processors are completely optional and are not required to be present in pipelines
 
