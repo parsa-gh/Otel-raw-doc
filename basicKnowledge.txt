@@ -215,3 +215,13 @@ Processors can do multiple things based on what we select:
 - Sampling : selecting some signals to reduce amount of exporting signals.
 
 
+---
+
+Youtube:
+
+Receivers act as entry points for telemetry data. they can use multiple Data sources
+
+Processors are used for data transformation, barching operations, data filtering and sensitive information removal.
+
+exporters are used to send data to observ tools. and to enable data storage and visualizations. 
+
